@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BioScope IR HW2 · 實作完成</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --line: #d8dee8;
+      --panel: #f8fafc;
+      --accent: #0f766e;
+      --warn: #b45309;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans TC", sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.55;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+
+    header {
+      border-bottom: 2px solid var(--line);
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      border-bottom: 1px solid var(--line);
+      font-size: 20px;
+      margin-top: 32px;
+      padding-bottom: 8px;
+    }
+
+    .meta {
+      color: var(--muted);
+      display: grid;
+      gap: 4px;
+      font-size: 14px;
+    }
+
+    .status {
+      background: var(--panel);
+      border-left: 4px solid var(--accent);
+      margin: 20px 0;
+      padding: 14px 16px;
+    }
+
+    .risk {
+      border-left-color: var(--warn);
+    }
+
+    .flow-diagram {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      margin: 16px 0;
+      overflow-x: auto;
+      padding: 16px;
+    }
+
+    .flow-diagram svg {
+      display: block;
+      min-width: 720px;
+      width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--panel);
+    }
+
+    code {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>BioScope IR HW2 · 實作完成</h1>
+      <div class="meta">
+        <div><strong>Milestone:</strong> 實作完成 / 等待整合驗證</div>
+        <div><strong>Project:</strong> bioscope-ir-hw2</div>
+        <div><strong>Generated:</strong> 2026-09-28</div>
+        <div><strong>Author:</strong> Codex</div>
+      </div>
+    </header>
+
+    <section class="status">
+      <strong>Status:</strong> 網站、資料工具、演算法與測試已實作，尚待實際執行驗證
+    </section>
+
+    <section>
+      <h2>Current Situation Description</h2>
+      <p>目前具備五個 Streamlit 工作區與獨立 CLI，GitHub 空 repository 已建立。</p>
+    </section>
+
+    <section>
+      <h2>Context</h2>
+      <p>作業需求包括 Zipf、Porter、Word2Vec、edit distance 與拼字校正。</p>
+    </section>
+
+    <section>
+      <h2>Architecture And Decisions</h2>
+      <ul>
+        <li>GitHub 保存原始碼與 JSONL，Streamlit Community Cloud 執行網站。</li>
+        <li>PubMed 下載分批限速，保存 PMID 與查詢來源。</li>
+        <li>Porter 與 Levenshtein 自行實作，Word2Vec 使用 Gensim。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Architecture Flow Diagram</h2>
+      <figure class="flow-diagram" aria-label="Architecture flow diagram">
+        <svg viewBox="0 0 900 260" role="img" aria-labelledby="flow-title flow-desc" xmlns="http://www.w3.org/2000/svg">
+          <title id="flow-title">PubMed 到瀏覽器</title>
+          <desc id="flow-desc">NCBI 資料經驗證成為資料快照，送進 Streamlit 分析並由瀏覽器呈現。</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"></path>
+            </marker>
+          </defs>
+          <rect x="24" y="72" width="150" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="99" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">NCBI PubMed</text>
+          <text x="99" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">GLP-1 / PMID</text>
+
+          <line x1="190" y1="108" x2="270" y2="108" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)"></line>
+
+          <rect x="286" y="72" width="150" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="361" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">資料快照</text>
+          <text x="361" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">1000 abstracts</text>
+
+          <line x1="452" y1="108" x2="532" y2="108" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)"></line>
+
+          <rect x="548" y="72" width="150" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="623" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">Streamlit</text>
+          <text x="623" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Zipf / NLP / Search</text>
+
+          <line x1="714" y1="108" x2="794" y2="108" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)"></line>
+
+          <rect x="810" y="72" width="66" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="843" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">Web</text>
+          <text x="843" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Cloud</text>
+
+          <text x="24" y="204" font-family="Arial, sans-serif" font-size="13" fill="#64748b">GitHub 程式與資料 → Streamlit Community Cloud → 跨電腦瀏覽器</text>
+        </svg>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Implementation Notes</h2>
+      <p>app.py 整合資料、Zipf、搜尋、詞向量與展示文件。README 說明 Python 3.12 執行及 Community Cloud 部署。</p>
+    </section>
+
+    <section>
+      <h2>Changed Or Planned Files</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Purpose</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>app.py / bioir / scripts / tests</code></td>
+            <td>互動網站、演算法、資料預備、驗證</td>
+            <td>已實作</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Verification</h2>
+      <p>已加入 Porter 公開範例與 NLTK 獨立比對、距離矩陣、XML、資料雜湊、Word2Vec 和 AppTest。套件安裝後執行。</p>
+    </section>
+
+    <section>
+      <h2>Next Step Recommendations</h2>
+      <p>下載資料、建置網站、測試，再部署。</p>
+    </section>
+
+    <section class="status risk">
+      <strong>Risks And Follow-ups:</strong> 部署可能需要使用者登入；預載摘要不是全文，保留來源與權利標示。
+    </section>
+  </main>
+</body>
+</html>

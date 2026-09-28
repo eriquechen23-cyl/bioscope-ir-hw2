@@ -1,0 +1,7 @@
+streamlit==1.64.0
+pandas==2.3.3
+numpy==2.5.3
+plotly==6.9.0
+gensim==4.4.0
+requests==2.34.2
+defusedxml==0.7.1
