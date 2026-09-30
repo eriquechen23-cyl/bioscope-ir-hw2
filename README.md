@@ -25,6 +25,7 @@ Information Retrieval HW2 的 Streamlit 專案。預備 **1,000 篇有摘要的 
 
 ## 網站與 GitHub
 
+- **正式網站：[bioscope-glp1-ir.streamlit.app](https://bioscope-glp1-ir.streamlit.app/)**（已部署，公開訪客可使用）
 - Repository：https://github.com/eriquechen23-cyl/bioscope-ir-hw2
 - 部署方式：GitHub 存放程式與資料，**Streamlit Community Cloud** 執行網站。GitHub Pages 無法執行這個 Python 應用程式。
 - 網站入口：`app.py`；Python 建議 **3.12**。
@@ -121,6 +122,8 @@ python3.12 -m venv .venv
 ```
 
 涵蓋公開 Porter 範例與真實語料逐詞 NLTK 原始模式比對、編輯距離、命中位置與 escaping、XML 結構化摘要、補足篇數、PMID 去重、資料 SHA-256、兩種 Word2Vec 模型與 Streamlit 主要頁面操作。
+
+2026-09-30：49 項 Windows 測試通過；[GitHub Linux CI 通過](https://github.com/eriquechen23-cyl/bioscope-ir-hw2/actions/runs/36675108036)。正式 Streamlit 頁面已用獨立未登入瀏覽器開啟，完整報告下載後 SHA-256 與本機 PDF 一致。
 
 架構與里程碑報告在 [`docs/architecture.md`](docs/architecture.md)、[`docs/reports/`](docs/reports/)。
 新版作業設計見 [`docs/assignment-20260930.md`](docs/assignment-20260930.md)。

@@ -25,4 +25,6 @@ flowchart LR
 
 ## 驗證
 
-以手算小語料驗證 TF/CF/DF/IDF；測試四條件的差異、synthetic 1/r 回歸、constant-tail R²、原始語料 SHA-256、完整 Streamlit 工作流程；檢查輸出 PDF 頁數與實際版面。完整報告 8 頁、一頁摘要 1 頁，Part IX 343 words。Cloud 已登入，準備以 main / app.py / Python 3.12 部署。
+以手算小語料驗證 TF/CF/DF/IDF；測試四條件的差異、synthetic 1/r 回歸、constant-tail R²、原始語料 SHA-256、完整 Streamlit 工作流程；檢查輸出 PDF 頁數與實際版面。完整報告 8 頁、一頁摘要 1 頁，Part IX 343 words。
+
+49 項本機測試及 Linux CI 通過。已以 main / app.py / Python 3.12 部署到 https://bioscope-glp1-ir.streamlit.app/ 。獨立未登入瀏覽器可開啟首頁，圖表與資料正確；下載 PDF 的 SHA-256 與本機檔案一致。部署畫面與驗證記錄見 docs/reports/。

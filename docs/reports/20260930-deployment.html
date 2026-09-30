@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLP-1 Project 2：部署完成</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --line: #d8dee8;
+      --panel: #f8fafc;
+      --accent: #0f766e;
+      --warn: #b45309;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans TC", sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.55;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+
+    header {
+      border-bottom: 2px solid var(--line);
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      border-bottom: 1px solid var(--line);
+      font-size: 20px;
+      margin-top: 32px;
+      padding-bottom: 8px;
+    }
+
+    .meta {
+      color: var(--muted);
+      display: grid;
+      gap: 4px;
+      font-size: 14px;
+    }
+
+    .status {
+      background: var(--panel);
+      border-left: 4px solid var(--accent);
+      margin: 20px 0;
+      padding: 14px 16px;
+    }
+
+    .risk {
+      border-left-color: var(--warn);
+    }
+
+    .flow-diagram {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      margin: 16px 0;
+      overflow-x: auto;
+      padding: 16px;
+    }
+
+    .flow-diagram svg {
+      display: block;
+      min-width: 720px;
+      width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--panel);
+    }
+
+    code {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>GLP-1 Project 2：部署完成</h1>
+      <div class="meta">
+        <div><strong>Milestone:</strong> Deployment verified</div>
+        <div><strong>Project:</strong> BioScope IR HW2</div>
+        <div><strong>Generated:</strong> 2026-09-30</div>
+        <div><strong>Author:</strong> Codex</div>
+      </div>
+    </header>
+
+    <section class="status">
+      <strong>Status:</strong> Streamlit 公開網站已部署，本機 49 項測試與 Linux CI 通過。
+    </section>
+
+    <section>
+      <h2>Current Situation Description</h2>
+      <p>新增作業分析首頁、8 頁報告及一頁 Executive Summary。網站 https://bioscope-glp1-ir.streamlit.app/ 已上線，獨立未登入瀏覽器可直接開啟。</p>
+    </section>
+
+    <section>
+      <h2>Context</h2>
+      <p>使用者指定回到原始 1,000 篇 GLP-1，按 2026-09-29 規格完成作業並省略 Optional Challenge。</p>
+    </section>
+
+    <section>
+      <h2>Architecture And Decisions</h2>
+      <ul>
+        <li>A–D 累積前處理共用 experiments.py，避免網站與報告計算分歧。</li>
+        <li>正式產物綁定原始 SHA-256；互動子集與固定報告分開標示。</li>
+        <li>IDF 採自然對數；Zipf 迴歸使用 log10。全域與三區域結果均報告。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Architecture Flow Diagram</h2>
+      <figure class="flow-diagram" aria-label="Architecture flow diagram">
+        <svg viewBox="0 0 900 260" role="img" aria-labelledby="flow-title flow-desc" xmlns="http://www.w3.org/2000/svg">
+          <title id="flow-title">從固定語料到網站與報告</title>
+          <desc id="flow-desc">1,000 篇摘要經四條件分析後產生 Streamlit 頁面和 PDF，推送 GitHub 後部署 Cloud</desc>
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f766e"></path>
+            </marker>
+          </defs>
+          <rect x="24" y="72" width="150" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="99" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">1,000 abstracts</text>
+          <text x="99" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">SHA-256 verified</text>
+
+          <line x1="190" y1="108" x2="270" y2="108" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)"></line>
+
+          <rect x="286" y="72" width="150" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="361" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">A / B / C / D</text>
+          <text x="361" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">CF / DF / IDF / Zipf</text>
+
+          <line x1="452" y1="108" x2="532" y2="108" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)"></line>
+
+          <rect x="548" y="72" width="150" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="623" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">App + PDF</text>
+          <text x="623" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">GitHub main</text>
+
+          <line x1="714" y1="108" x2="794" y2="108" stroke="#0f766e" stroke-width="2" marker-end="url(#arrow)"></line>
+
+          <rect x="810" y="72" width="66" height="72" rx="6" fill="#f8fafc" stroke="#d8dee8"></rect>
+          <text x="843" y="102" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1f2937">Cloud</text>
+          <text x="843" y="124" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">3.12</text>
+
+          <text x="24" y="204" font-family="Arial, sans-serif" font-size="13" fill="#64748b">Source snapshot → shared analysis → reviewable artifacts → Streamlit Community Cloud</text>
+        </svg>
+      </figure>
+    </section>
+
+    <section>
+      <h2>Implementation Notes</h2>
+      <p>新增 bioir/experiments.py、bioir/assignment_ui.py 與 scripts/build_assignment.py。首頁可切换条件，下載 CSV 與完整報告。保留既有 Word2Vec 與搜尋示範。</p>
+    </section>
+
+    <section>
+      <h2>Changed Or Planned Files</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Purpose</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>reports/assignment/</code></td>
+            <td>完整 PDF、摘要、離線 HTML、圖表、原始統計 CSV</td>
+            <td>已產生與檢查</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Verification</h2>
+      <p>49 tests passed（Windows Python 3.12），涵蓋手算 CF/DF/IDF、精確 1/r、退化尾端、原始 SHA、Streamlit 操作及原有演算法。PDF 已逐頁渲染檢查：完整報告 8 頁；摘要 1 頁。Part IX 343 words。</p>
+    </section>
+
+    <section>
+      <h2>Next Step Recommendations</h2>
+      <p>可在其他電腦開啟正式網址，從作業分析頁下載報告。GitHub main 後續更新會同步部署。</p>
+    </section>
+
+    <section class="status risk">
+      <strong>Risks And Follow-ups:</strong> 近似 Zipf 分布不能證明精確 power law 或檢索品質提升。已验证公開訪客頁面、圖表與完整 PDF 下載；下載 SHA-256 為 9b9fec0ec6908c97caef9d69fca945fe1566e50c875946f0ced05616bb8d3894，與本機相同。
+    </section>
+  <section><h2>Live deployment</h2><p><a href="https://bioscope-glp1-ir.streamlit.app/">Open Streamlit app</a> · <a href="https://github.com/eriquechen23-cyl/bioscope-ir-hw2/actions/runs/36675108036">Successful Linux CI</a></p><img src="streamlit-live.png" style="width:100%" alt="Deployed Streamlit homepage with 1000 GLP-1 abstracts"></section></main>
+</body>
+</html>
+
+
