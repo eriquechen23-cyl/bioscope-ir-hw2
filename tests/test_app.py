@@ -10,8 +10,11 @@ def test_all_pages_render_and_training_works():
     app = start_app()
     assert not app.exception
     assert app.metric[0].value == "1,000"
+    assert any("Project 2" in h.value for h in app.subheader)
+    assert any("Top 50 CF" in text.value for text in app.markdown)
+    assert len(app.dataframe[0].value) == 4
     workspace = next(r for r in app.radio if r.label == "工作區")
-    for page in ["Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"]:
+    for page in ["文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"]:
         workspace.set_value(page).run()
         assert not app.exception, (page, app.exception)
         if page == "文獻搜尋":

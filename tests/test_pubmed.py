@@ -29,6 +29,23 @@ def test_pmid_validation():
         validate_records(parse_articles(XML) * 2)
 
 
+def test_one_thousand_article_limit(monkeypatch):
+    ids = [str(i) for i in range(1, 1001)]
+    assert parse_pmids("\n".join(ids)) == ids
+    records = [{"pmid": pmid, "title": "GLP-1", "abstract": "An abstract."} for pmid in ids]
+    assert len(validate_records(records)) == 1000
+    with pytest.raises(ValueError, match="1,000"):
+        parse_pmids("\n".join(ids + ["1001"]))
+    with pytest.raises(ValueError, match="1,000"):
+        validate_records(records + [{"pmid": "1001", "title": "GLP-1", "abstract": "An abstract."}])
+    client = PubMedClient()
+    def unexpected_request(*args, **kwargs):
+        pytest.fail("Invalid count must be rejected before an NCBI request")
+    monkeypatch.setattr(client, "_request", unexpected_request)
+    with pytest.raises(ValueError, match="1,000"):
+        client.search("GLP-1", 1001)
+
+
 def test_search_refills_missing_and_deduplicates(monkeypatch):
     client = PubMedClient()
     class Response:

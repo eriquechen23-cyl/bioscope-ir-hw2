@@ -19,6 +19,7 @@ from bioir.porter import stem
 from bioir.pubmed import DEFAULT_QUERY, PubMedClient, corpus_bytes, load_corpus, parse_pmids, validate_records
 from bioir.retrieval import search, suggestions, highlight, distance_matrix
 from bioir.text import document_text, tokenize
+from bioir.assignment_ui import render_assignment
 
 ROOT = Path(__file__).resolve().parent
 st.set_page_config(page_title="BioScope · GLP-1 文獻實驗室", page_icon="🧬", layout="wide")
@@ -80,22 +81,25 @@ records = all_records[:n]
 st.markdown('<div class="eyebrow">PUBMED / GLP-1 / TEXT MINING</div>', unsafe_allow_html=True)
 st.title("GLP-1 文獻實驗室")
 st.markdown('<p class="intro">從 1,000 篇摘要開始，觀察詞頻分布、比較詞幹化，探索詞向量與文獻檢索。</p>', unsafe_allow_html=True)
-page = st.radio("工作區", ["文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"], horizontal=True, label_visibility="collapsed")
+page = st.radio("工作區", ["作業分析", "文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"], horizontal=True, label_visibility="collapsed")
 st.divider()
 
 if records:
-    raw, stemmed = compute_frequencies(records, remove_stopwords, include_title)
+    raw, stemmed = compute_frequencies(records, False if page == "作業分析" else remove_stopwords, False if page == "作業分析" else include_title)
     cols = st.columns(4)
     cols[0].metric("分析文章", f"{len(records):,}", help="所有載入文章均有 PMID 與非空摘要")
     cols[1].metric("總詞數", f"{sum(raw.values()):,}")
     cols[2].metric("原始詞彙", f"{len(raw):,}")
-    cols[3].metric("Porter 詞彙", f"{len(stemmed):,}", f"{(len(stemmed)/len(raw)-1)*100:.1f}%" if raw else None, delta_color="inverse")
+    cols[3].metric("Porter（含停用詞）" if page == "作業分析" else "Porter 詞彙", f"{len(stemmed):,}", f"{(len(stemmed)/len(raw)-1)*100:.1f}%" if raw else None, delta_color="inverse", help="此處直接對上方原始詞彙做 stemming；下方 D 條件先去停用詞再 stemming。" if page == "作業分析" else None)
     st.write("")
 else:
     raw, stemmed = Counter(), Counter()
     st.info("尚未載入資料。請在下方預備 PubMed 摘要，或切換回預載 GLP-1。")
 
-if page == "文獻資料":
+if page == "作業分析" and records:
+    render_assignment(records, ROOT)
+
+elif page == "文獻資料":
     if records:
         st.subheader("摘要資料集")
         if source == "預載 GLP-1":

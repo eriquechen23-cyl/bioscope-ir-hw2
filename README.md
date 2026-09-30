@@ -2,6 +2,27 @@
 
 Information Retrieval HW2 的 Streamlit 專案。預備 **1,000 篇有摘要的 GLP-1 PubMed 文章**，用同一語料展示詞頻、Porter stemming、Word2Vec 與文獻檢索。
 
+依 2026-09-29 Project 2 詳細規格完成 Parts I–IX、RQ1–RQ5、Final Challenge 和一頁 Executive Summary；依使用者指定採原始 **1,000 篇**快照，省略 Optional Challenge（跨領域比較）。
+
+## 作業成果
+
+- [完整報告 PDF（8 頁）](reports/assignment/project2_report.pdf)
+- [一頁 Executive Summary](reports/assignment/executive_summary.pdf)
+- [離線 HTML 報告](reports/assignment/project2_report.html)
+- [中文研究結論](reports/assignment/findings_zh.md) 與 [全部分析 CSV／圖表](reports/assignment/)
+- Part IX 討論 343 英文單字；報告採英文，網站操作與結論採繁體中文。
+
+主要條件 B：161,515 tokens、10,691 unique terms、每篇平均 161.515 tokens。全域 Zipf 指數 **1.2982**、R² **0.9708**、log10 RMSE **0.0975**；高頻前 10% 指數 0.9271。高 R² 不代表證明精確 power law，報告包含殘差與同頻尾端平台的限制。
+
+### 重建正式報告
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-report.txt
+.\.venv\Scripts\python.exe -m scripts.build_assignment
+```
+
+產生器先檢查原始快照 SHA-256，再計算 A–D 四條件，輸出所有詞的 CF／DF／IDF、每篇非零 TF、TF-IDF 示例、圖表與 PDF。網站直接提供已提交的報告下載，不需安裝報告繪製套件。若重新下載預載資料，正式報告 SHA 檢查會阻止誤用新快照。
+
 ## 網站與 GitHub
 
 - Repository：https://github.com/eriquechen23-cyl/bioscope-ir-hw2
@@ -12,6 +33,7 @@ Information Retrieval HW2 的 Streamlit 專案。預備 **1,000 篇有摘要的 
 
 | 工作區 | 可展示的內容 |
 | --- | --- |
+| 作業分析（首頁） | A–D 四種前處理、詞次／詞彙量／平均詞次、Top 50、CF／DF／IDF、Zipf 擬合與分區比較、單篇 TF-IDF、PDF／HTML 下載 |
 | 文獻資料 | 10–1,000 篇分析、PMID／標題／期刊／摘要／PubMed 連結、JSONL／CSV／PMID 匯出 |
 | Zipf 與 Porter | 原始與詞幹化詞頻、log-log 圖、參考 1/r 曲線、斜率與 R²、轉換示例 |
 | 文獻搜尋 | 完整 token、Porter、編輯距離 1–2 的近似匹配、AND／OR、拼字候選、原文位置標示 |
@@ -83,6 +105,7 @@ python3.12 -m venv .venv
 ## 方法與限制
 
 - 預設只處理摘要，保留停用詞；可在側欄切換。英文小寫化，GLP-1 等連字號 token 保留，純數字排除。英文 stoplist 位於 `bioir/text.py`。
+- 「作業分析」固定使用摘要與 A–D 設定，不受側欄停用詞／包含標題開關影響；可依所選文章子集重新計算。下載的正式報告始終使用原始全部 1,000 篇。A 保留獨立標點，B 移除獨立標點，C 再去停用詞，D 再 stemming。IDF 使用 ln(N/DF)，回歸與 RMSE 使用 log10。
 - Porter 模組遵照 1980 原始規則；非純英文字母 token 保持不變。stemming 是字尾化簡，不是醫學同義詞辨識。
 - Zipf OLS 使用所有詞頻排名；斜率和 R² 不表示搜尋品質。詞幹化前後總 token 數守恆。
 - 搜尋依原文 token 操作，停用詞設定不影響搜尋。命中位置為選定原文的 0-based 字元索引 `[start,end)`。
@@ -100,6 +123,7 @@ python3.12 -m venv .venv
 涵蓋公開 Porter 範例與真實語料逐詞 NLTK 原始模式比對、編輯距離、命中位置與 escaping、XML 結構化摘要、補足篇數、PMID 去重、資料 SHA-256、兩種 Word2Vec 模型與 Streamlit 主要頁面操作。
 
 架構與里程碑報告在 [`docs/architecture.md`](docs/architecture.md)、[`docs/reports/`](docs/reports/)。
+新版作業設計見 [`docs/assignment-20260930.md`](docs/assignment-20260930.md)。
 
 ## 參考
 

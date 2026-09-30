@@ -8,3 +8,6 @@ tmp/
 output/
 *.pdf
 *.log
+# Superseded 3,000-article experiment; retain locally, exclude from submission.
+data/glp1_3000.*
+!reports/assignment/*.pdf
