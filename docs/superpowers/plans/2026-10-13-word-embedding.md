@@ -57,13 +57,12 @@ Interface: `render_embedding_assignment(records, root)` reads fingerprint-matche
 
 Files: update design status, plan checkboxes; create `docs/reports/20261013-part2-verification.md`, `reports/embedding/canva_brief_zh.md` and final Canva link record.
 
-- [ ] Request code review of implementation against the approved design, correct important findings and rerun affected tests.
-- [ ] Commit only reviewed project files, push main without force, verify remote revision and GitHub Actions result.
-- [ ] Verify public Streamlit page contains Part 2, actual model tables and download artifacts; check downloadable data matches fixed outputs.
-- [ ] Compose concise A4 landscape Canva brief answering all questions using verified data. Call Canva create_design, follow async job polling policy when no widget is mounted; verify one-page design and text.
-- [ ] Save Canva edit link and deployment evidence; deliver all three final links and concise testing evidence.
+- [x] Request code review of implementation against the approved design, correct important findings and rerun affected tests.
+- [x] Commit only reviewed project files, push main without force, verify remote revision and GitHub Actions result.
+- [x] Verify public Streamlit page contains Part 2, actual model tables and download artifacts; check downloadable data matches fixed outputs.
+- [x] Compose concise A4 landscape Canva brief answering all questions using verified data. Call Canva create_design, follow async job polling policy when no widget is mounted; verify one-page design and text.
+- [x] Save Canva edit link and deployment evidence; deliver all three final links and concise testing evidence.
 
 ## Plan review
 
 Every approved requirement maps to a task: Task 1 supplies model/sample/analysis behavior, Task 2 supplies actual experiment evidence and all answers, Task 3 exposes the complete assignment, Task 4 publishes and creates the requested Canva report. No external approval is needed beyond the existing user instruction to update their repo and deploy.
-

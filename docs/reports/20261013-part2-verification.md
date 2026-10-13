@@ -20,6 +20,10 @@ Raw loss across architectures is not a semantic quality score. Overlap@5 is neig
 
 ## Publication
 
-Code and experiments are ready for the authorized main-branch update. Live deployment and CI evidence will be added after remote verification. The saved [Canva report](https://canva.link/hkj0gtudpvpkouv) is recorded in reports/embedding/canva_report.md.
+Published main implementation commit: `04852bc465f23af8ecd53062f92697dd39f4a611`. The remote tree `7607ff9293b3ef262a65ba2e9f52211a83167120` exactly matched the local index snapshot. [GitHub Linux CI passed](https://github.com/eriquechen23-cyl/bioscope-ir-hw2/actions/runs/38347949979).
+
+[Streamlit public app](https://bioscope-glp1-ir.streamlit.app/) was verified in an independent unsigned-in browser: new Part 2 default workspace; correct six-model table; baseline semaglutide Top-5 values; all four PCA/t-SNE graphs and metrics; all RQs and download buttons. Downloaded Part 2 findings matched the local report after normalizing LF/CRLF. The saved [Canva report](https://canva.link/hkj0gtudpvpkouv) is recorded in reports/embedding/canva_report.md and linked from the assignment view.
+
+Local main tracks the connector-published commit. Original local work commits are preserved on `codex/part2-local-snapshot`; no user changes were discarded.
 
 Git CLI lacked a saved credential. Publication uses the user's existing authenticated GitHub connector, without requesting a new OAuth grant or altering repository permissions. The immutable blob API uploads the exact Git-index file contents; the assembled tree is checked against the local tree before a non-forced, expected-head-checked main update.

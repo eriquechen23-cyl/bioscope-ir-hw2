@@ -112,6 +112,7 @@ def render_embedding_assignment(records, root):
         st.dataframe(tables["stability"], hide_index=True, width="stretch")
         st.caption("overlap_at_5 = 兩次 Top 5 的共同詞數 / 5；rare 組為預先選定、頻次 3–20 的 7 個醫學詞。只測兩個 seed，非充分統計證據。")
     with tabs[4]:
+        st.link_button("開啟 Canva 一頁式重點報告", "https://www.canva.com/d/VcL4jt6GaTVy-4Y")
         findings = folder / "findings_zh.md"
         if findings.exists():
             st.markdown(findings.read_text(encoding="utf-8"))
