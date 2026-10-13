@@ -1,10 +1,34 @@
 # 🧬 BioScope · GLP-1 文獻實驗室
 
-Information Retrieval HW2 的 Streamlit 專案。預備 **1,000 篇有摘要的 GLP-1 PubMed 文章**，用同一語料展示詞頻、Porter stemming、Word2Vec 與文獻檢索。
+Information Retrieval HW2 的 Streamlit 專案。使用 **1,000 篇 GLP-1 PubMed 摘要**，完成 2026-10-06 **Project 2 Part 2 詞嵌入**作業；首頁比較 CBOW／Skip-Gram、PCA／t-SNE、參數與低頻詞穩定性。
 
-依 2026-09-29 Project 2 詳細規格完成 Parts I–IX、RQ1–RQ5、Final Challenge 和一頁 Executive Summary；依使用者指定採原始 **1,000 篇**快照，省略 Optional Challenge（跨領域比較）。
+## Part 2 作業成果（2026-10-06 規格）
 
-## 作業成果
+- [完整 RQ1–RQ5、背景比較表與低頻詞問題回答](reports/embedding/findings_zh.md)
+- [Canva 一頁式重點報告（可編輯）](https://canva.link/hkj0gtudpvpkouv)
+- [可重現實驗：CSV、manifest、六模型詞向量 NPZ 與圖表](reports/embedding/)
+- 10 個指定詞 × 每模型 Top 5、5 組相關詞對；使用原始 100 維 cosine。
+- 六個真實模型：CBOW／Skip-Gram 各 window 2、5（seed=42），另各 window=5（seed=7）。100 維、min_count=3、20 epochs。
+- 前處理保留停用詞、僅摘要、不 stemming；161,515 tokens、10,691 個詞，保留 **4,672** 個模型詞彙。
+- 基準 semaglutide／liraglutide cosine：CBOW **0.8228**、Skip-Gram **0.4810**；相似度不能作兩架構的準確率排名。
+- 十詞 window 2→5 的平均 Top-5 重疊：CBOW **66%**、Skip-Gram **50%**。七低頻詞 seed 42→7 重疊：**57.1%／68.6%**，只檢查兩個 seed，不能證明普遍優勢。
+- loss 記錄每 epoch 累積值及增量；不同架構的 loss 不直接比較語意品質。PCA／t-SNE 群聚亦不等於語意品質。
+- 訓練使用 **Gensim**，樣本示例／loss callback／分析流程由本專案實作；不是自寫神經網路。
+
+### 重建 Part 2 實驗
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt -r requirements-report.txt
+.\.venv\Scripts\python.exe -m scripts.build_embeddings
+```
+
+產生器先核對原始資料 SHA-256，再訓練六模型，產生完整回答與全部資料。網站讀取固定結果，不在首頁自動重訓；所選摘要與 fingerprint 不符時提供明確提示。向量 NPZ 可重算相似度／近鄰，不含輸出權重，不能續訓。
+
+## Part 1 作業成果（2026-09-29 規格）
+
+保留舊版 Parts I–IX、RQ1–RQ5、Final Challenge 與一頁 Executive Summary，網站「作業分析」頁明確標示為 Part 1。採原始 **1,000 篇**快照，省略 Optional Challenge（跨領域比較）。
+
+### Part 1 報告
 
 - [完整報告 PDF（8 頁）](reports/assignment/project2_report.pdf)
 - [一頁 Executive Summary](reports/assignment/executive_summary.pdf)
@@ -34,7 +58,8 @@ Information Retrieval HW2 的 Streamlit 專案。預備 **1,000 篇有摘要的 
 
 | 工作區 | 可展示的內容 |
 | --- | --- |
-| 作業分析（首頁） | A–D 四種前處理、詞次／詞彙量／平均詞次、Top 50、CF／DF／IDF、Zipf 擬合與分區比較、單篇 TF-IDF、PDF／HTML 下載 |
+| 詞嵌入作業（首頁） | Part 2 雙模型、六實驗、訓練樣本、loss、10 詞 Top 5、5 詞對、PCA／t-SNE、window 與 seed 比較、全部問題回答與下載 |
+| 作業分析（Part 1） | A–D 四種前處理、詞次／詞彙量／平均詞次、Top 50、CF／DF／IDF、Zipf 擬合與分區比較、單篇 TF-IDF、PDF／HTML 下載 |
 | 文獻資料 | 10–1,000 篇分析、PMID／標題／期刊／摘要／PubMed 連結、JSONL／CSV／PMID 匯出 |
 | Zipf 與 Porter | 原始與詞幹化詞頻、log-log 圖、參考 1/r 曲線、斜率與 R²、轉換示例 |
 | 文獻搜尋 | 完整 token、Porter、編輯距離 1–2 的近似匹配、AND／OR、拼字候選、原文位置標示 |
@@ -115,6 +140,8 @@ python3.12 -m venv .venv
 - PubMed abstracts 的權利屬原作者／出版者，保留 PMID、原始連結及可取得的版權聲明；本專案沒有對摘要重新授予開放授權。
 
 ## 驗證
+
+2026-10-13：新版 Part 2 的完整 **59 項測試通過**；獨立審查從保存向量重算全部近鄰、cosine、window／seed 重疊與投影指標。Canva 已確認一頁，修正版經使用者預覽同意後儲存。
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt

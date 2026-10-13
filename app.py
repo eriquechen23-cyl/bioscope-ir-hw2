@@ -20,6 +20,7 @@ from bioir.pubmed import DEFAULT_QUERY, PubMedClient, corpus_bytes, load_corpus,
 from bioir.retrieval import search, suggestions, highlight, distance_matrix
 from bioir.text import document_text, tokenize
 from bioir.assignment_ui import render_assignment
+from bioir.embedding_ui import render_embedding_assignment
 
 ROOT = Path(__file__).resolve().parent
 st.set_page_config(page_title="BioScope · GLP-1 文獻實驗室", page_icon="🧬", layout="wide")
@@ -80,23 +81,31 @@ with st.sidebar:
 records = all_records[:n]
 st.markdown('<div class="eyebrow">PUBMED / GLP-1 / TEXT MINING</div>', unsafe_allow_html=True)
 st.title("GLP-1 文獻實驗室")
-st.markdown('<p class="intro">從 1,000 篇摘要開始，觀察詞頻分布、比較詞幹化，探索詞向量與文獻檢索。</p>', unsafe_allow_html=True)
-page = st.radio("工作區", ["作業分析", "文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"], horizontal=True, label_visibility="collapsed")
+st.markdown('<p class="intro">用 1,000 篇摘要比較 CBOW 與 Skip-Gram，檢驗詞向量的語意、參數影響與穩定性。</p>', unsafe_allow_html=True)
+page = st.radio("工作區", ["詞嵌入作業", "作業分析", "文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"], horizontal=True, label_visibility="collapsed")
 st.divider()
 
 if records:
-    raw, stemmed = compute_frequencies(records, False if page == "作業分析" else remove_stopwords, False if page == "作業分析" else include_title)
+    fixed_analysis = page in {"詞嵌入作業", "作業分析"}
+    raw, stemmed = compute_frequencies(records, False if fixed_analysis else remove_stopwords, False if fixed_analysis else include_title)
     cols = st.columns(4)
     cols[0].metric("分析文章", f"{len(records):,}", help="所有載入文章均有 PMID 與非空摘要")
     cols[1].metric("總詞數", f"{sum(raw.values()):,}")
     cols[2].metric("原始詞彙", f"{len(raw):,}")
-    cols[3].metric("Porter（含停用詞）" if page == "作業分析" else "Porter 詞彙", f"{len(stemmed):,}", f"{(len(stemmed)/len(raw)-1)*100:.1f}%" if raw else None, delta_color="inverse", help="此處直接對上方原始詞彙做 stemming；下方 D 條件先去停用詞再 stemming。" if page == "作業分析" else None)
+    if page == "詞嵌入作業":
+        cols[3].metric("模型詞彙", f"{sum(count >= 3 for count in raw.values()):,}", help="min_count=3：至少出現三次的詞才納入模型。")
+    else:
+        cols[3].metric("Porter（含停用詞）" if page == "作業分析" else "Porter 詞彙", f"{len(stemmed):,}", f"{(len(stemmed)/len(raw)-1)*100:.1f}%" if raw else None, delta_color="inverse", help="此處直接對上方原始詞彙做 stemming；下方 D 條件先去停用詞再 stemming。" if page == "作業分析" else None)
     st.write("")
 else:
     raw, stemmed = Counter(), Counter()
     st.info("尚未載入資料。請在下方預備 PubMed 摘要，或切換回預載 GLP-1。")
 
-if page == "作業分析" and records:
+if page == "詞嵌入作業" and records:
+    render_embedding_assignment(records, ROOT)
+
+elif page == "作業分析" and records:
+    st.caption("Part 1 · 2026-09-29 詞頻與 Zipf 作業；新版 Part 2 請切換到「詞嵌入作業」。")
     render_assignment(records, ROOT)
 
 elif page == "文獻資料":
@@ -300,7 +309,8 @@ elif page == "方法與展示":
 1. **文獻資料**：確認 1,000 個不同 PMID、摘要與查詢來源；下載清單與文章。
 2. **Zipf 與 Porter**：比較原始與 stemming 後詞頻、詞彙數及 log-log 分布；切換停用詞觀察差異。
 3. **文獻搜尋**：查 `semaglutide`；再查 `semaglutde` 示範拼字候選與近似匹配。展開結果查看命中位置。
-4. **Word2Vec**：以相同語料分別訓練 Skip-gram / CBOW，查 `semaglutide`、`insulin`、`obesity`，比較相近詞。
+4. **詞嵌入作業（Part 2）**：查看六個實測模型、10 詞 Top 5、5 組詞對、loss、PCA／t-SNE、window／seed 比較和完整研究問題回答。
+5. **Word2Vec**：以目前所選語料分別訓練 Skip-gram / CBOW，查 `semaglutide`、`insulin`、`obesity`，比較相近詞。
 
 **演算法與實作**
 
@@ -309,7 +319,7 @@ elif page == "方法與展示":
 - 詞頻使用 Counter；Zipf 曲線以 log10(rank) / log10(frequency) 做 OLS，參考曲線為 f(1)/rank。
 - Levenshtein 使用動態規劃，插入、刪除、替換成本均為 1。候選字依距離、語料頻次、字母排序。
 - Word2Vec 使用 **Gensim**（不是自行實作神經網路訓練器），negative sampling=5、seed=42、workers=1，並使用穩定 hash 初始化。
-- 所有比較共用目前選取的語料與前處理設定。Word2Vec 欄位變更後要再按訓練；已訓練參數顯示於模型下方。
+- Part 2 的正式比較固定使用原始 1,000 篇摘要與 manifest 設定；探索頁面使用目前選取語料。Word2Vec 欄位變更後要再按訓練；已訓練參數顯示於模型下方。
 
 **資料與重現性**
 

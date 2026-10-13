@@ -1,0 +1,35 @@
+architecture,word,overlap_at_5,shared_neighbors,status,frequency,group
+cbow,agonist,0.6,"agonism, analog, long-acting",ok,210,query
+cbow,cardiomyopathy,0.4,"nephropathy, retinopathy",ok,5,rare (3-20)
+cbow,diabetes,0.6,"ii, mellitus, wild",ok,819,query
+cbow,diagnosis,0.6,"collaborative, evidence-based, timely",ok,11,rare (3-20)
+cbow,gastroparesis,0.4,"drug-induced, persist",ok,4,rare (3-20)
+cbow,glp-1,0.6,"glucagon, gpr, insulinotropic",ok,3863,query
+cbow,glucose,0.6,"lipid, postprandial, sugar",ok,572,query
+cbow,insulin,0.8,"glucagon, glucose-stimulated, postprandial, stimulating",ok,616,query
+cbow,liraglutide,1.0,"dulaglutide, exenatide, lixisenatide, semaglutide, tirzepatide",ok,204,query
+cbow,nephropathy,0.4,"cardiomyopathy, degeneration",ok,4,rare (3-20)
+cbow,neuropathy,0.8,"anterior, mi, nonfatal, optic",ok,10,rare (3-20)
+cbow,obesity,0.6,"mellitus, treating, type",ok,499,query
+cbow,receptor,0.6,"biased, dual, glp-1r",ok,1035,query
+cbow,retinopathy,0.8,"cardiomyopathy, dr, eye, nephropathy",ok,13,rare (3-20)
+cbow,semaglutide,0.8,"dulaglutide, exenatide, liraglutide, tirzepatide",ok,160,query
+cbow,tumor,0.6,"interleukin-6, necrosis, tnf",ok,11,rare (3-20)
+cbow,weight,0.6,"glycaemic, hair, temperature",ok,551,query
+skipgram,agonist,0.4,"agonists, gcgr",ok,210,query
+skipgram,cardiomyopathy,0.6,"arrhythmias, cardiomyopathies, eye",ok,5,rare (3-20)
+skipgram,diabetes,1.0,"dm, dmt, mellitus, revolutionized, type",ok,819,query
+skipgram,diagnosis,0.4,"acnes, bipolar",ok,11,rare (3-20)
+skipgram,gastroparesis,0.8,"aspiration, delayed, peri-operatively, regurgitation",ok,4,rare (3-20)
+skipgram,glp-1,0.4,"atropine, unlabelled",ok,3863,query
+skipgram,glucose,0.8,"blood-glucose, carbohydrate, sugar, tolerance",ok,572,query
+skipgram,insulin,0.6,"glucose-induced, resistance, stimulating",ok,616,query
+skipgram,liraglutide,0.8,"dulaglutide, exenatide, lixisenatide, saxenda",ok,204,query
+skipgram,nephropathy,0.6,"comorbidity, dyslipidaemia, microvascular",ok,4,rare (3-20)
+skipgram,neuropathy,1.0,"anterior, ischemic, non-arteritic, nonarteritic, optic",ok,10,rare (3-20)
+skipgram,obesity,0.6,"landscape, osa, sid",ok,499,query
+skipgram,receptor,0.4,"unlabelled, weak",ok,1035,query
+skipgram,retinopathy,0.6,"end-stage, eye, nonfatal",ok,13,rare (3-20)
+skipgram,semaglutide,0.8,"dulaglutide, ozempic, rybelsus, tirzepatide",ok,160,query
+skipgram,tumor,0.8,"interleukin-6, pcsk, tnf, zone",ok,11,rare (3-20)
+skipgram,weight,0.8,"gain, loss, meaningful, reduction",ok,551,query

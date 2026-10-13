@@ -34,15 +34,20 @@ def stable_hash(word):
 
 
 def train_embeddings(records, architecture="Skip-gram", vector_size=100, window=5,
-                     min_count=3, epochs=10, remove_stopwords=False, stemming=False, include_title=False):
+                     min_count=3, epochs=10, remove_stopwords=False, stemming=False, include_title=False,
+                     seed=42, compute_loss=False, callbacks=()):
     from gensim.models import Word2Vec
+    if architecture not in {"CBOW", "Skip-gram"}:
+        raise ValueError("模型必須為 CBOW 或 Skip-gram。")
+    if min(vector_size, window, min_count, epochs) < 1:
+        raise ValueError("維度、window、min_count 與 epochs 必須為正整數。")
     corpus = sentences(records, remove_stopwords, stemming, include_title)
     counts = Counter(word for sentence in corpus for word in sentence)
     if sum(v >= min_count for v in counts.values()) < 2:
         raise ValueError("可訓練詞彙不足，請降低 min_count 或增加文章數。")
     return Word2Vec(sentences=corpus, sg=int(architecture == "Skip-gram"), vector_size=vector_size,
-                    window=window, min_count=min_count, epochs=epochs, workers=1, seed=42,
-                    hashfxn=stable_hash, negative=5)
+                    window=window, min_count=min_count, epochs=epochs, workers=1, seed=seed,
+                    hashfxn=stable_hash, negative=5, compute_loss=compute_loss, callbacks=callbacks)
 
 
 def project_vectors(model, words):

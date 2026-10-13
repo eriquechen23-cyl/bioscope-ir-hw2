@@ -1,0 +1,35 @@
+architecture,word,overlap_at_5,shared_neighbors,status
+cbow,agonist,0.8,"agonism, analog, antagonist, long-acting",ok
+cbow,cardiomyopathy,0.4,"nephropathy, retinopathy",ok
+cbow,diabetes,0.6,"mellitus, nafld, wild",ok
+cbow,diagnosis,0.0,,ok
+cbow,gastroparesis,0.2,persist,ok
+cbow,glp-1,0.6,"biased, glucagon, gpr",ok
+cbow,glucose,0.6,"carbohydrate, lipid, sugar",ok
+cbow,insulin,0.4,"glucagon, glucose-stimulated",ok
+cbow,liraglutide,0.8,"dulaglutide, exenatide, lixisenatide, semaglutide",ok
+cbow,nephropathy,0.2,cardiomyopathy,ok
+cbow,neuropathy,0.2,optic,ok
+cbow,obesity,0.6,"mellitus, nafld, type",ok
+cbow,receptor,0.6,"biased, dual, glp-1r",ok
+cbow,retinopathy,0.6,"cardiomyopathy, dr, nephropathy",ok
+cbow,semaglutide,0.8,"dulaglutide, exenatide, liraglutide, tirzepatide",ok
+cbow,tumor,0.4,"necrosis, tnf",ok
+cbow,weight,0.8,"hair, ketone, meaningful, temperature",ok
+skipgram,agonist,0.6,"analogue, cck-1, gcgr",ok
+skipgram,cardiomyopathy,0.2,cardiomyopathies,ok
+skipgram,diabetes,0.8,"dm, dmt, mellitus, revolutionized",ok
+skipgram,diagnosis,0.2,bipolar,ok
+skipgram,gastroparesis,0.2,peri-operatively,ok
+skipgram,glp-1,0.4,"peptide-2, unlabelled",ok
+skipgram,glucose,1.0,"blood-glucose, carbohydrate, lipid, sugar, tolerance",ok
+skipgram,insulin,0.4,"glucose-induced, resistance",ok
+skipgram,liraglutide,0.8,"dulaglutide, exenatide, lixisenatide, saxenda",ok
+skipgram,nephropathy,0.2,cardiomyopathies,ok
+skipgram,neuropathy,0.4,"anterior, optic",ok
+skipgram,obesity,0.0,,ok
+skipgram,receptor,0.2,co-agonists,ok
+skipgram,retinopathy,0.4,"eye, nephropathy",ok
+skipgram,semaglutide,0.4,"dulaglutide, tirzepatide",ok
+skipgram,tumor,0.2,tnf,ok
+skipgram,weight,0.4,"gain, loss",ok

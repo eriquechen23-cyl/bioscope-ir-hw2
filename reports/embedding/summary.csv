@@ -1,0 +1,7 @@
+architecture,window,vector_size,min_count,epochs,seed,workers,negative,sample,shrink_windows,cbow_mean,alpha,min_alpha,hs,ns_exponent,remove_stopwords,stemming,include_title,vocabulary,elapsed_seconds,nominal_cbow_examples,nominal_skipgram_pairs,model
+CBOW,2,100,3,20,42,1,5,0.001,True,1,0.025,0.0001,0,0.75,False,False,False,4672,2.381561199668795,153898,572080,cbow_w2_s42
+CBOW,5,100,3,20,42,1,5,0.001,True,1,0.025,0.0001,0,0.75,False,False,False,4672,2.3329810998402536,153898,1321598,cbow_w5_s42
+CBOW,5,100,3,20,7,1,5,0.001,True,1,0.025,0.0001,0,0.75,False,False,False,4672,2.2216640999540687,153898,1321598,cbow_w5_s7
+Skip-gram,2,100,3,20,42,1,5,0.001,True,1,0.025,0.0001,0,0.75,False,False,False,4672,4.622283999808133,153898,572080,skipgram_w2_s42
+Skip-gram,5,100,3,20,42,1,5,0.001,True,1,0.025,0.0001,0,0.75,False,False,False,4672,6.956272900104523,153898,1321598,skipgram_w5_s42
+Skip-gram,5,100,3,20,7,1,5,0.001,True,1,0.025,0.0001,0,0.75,False,False,False,4672,5.97952640010044,153898,1321598,skipgram_w5_s7

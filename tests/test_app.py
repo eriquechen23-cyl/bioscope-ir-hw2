@@ -10,13 +10,16 @@ def test_all_pages_render_and_training_works():
     app = start_app()
     assert not app.exception
     assert app.metric[0].value == "1,000"
-    assert any("Project 2" in h.value for h in app.subheader)
-    assert any("Top 50 CF" in text.value for text in app.markdown)
-    assert len(app.dataframe[0].value) == 4
+    assert any("Part 2" in h.value for h in app.subheader)
+    assert any("RQ1" in text.value for text in app.markdown)
+    assert len(app.dataframe[0].value) == 6
+    assert any(s.label == "比較指定詞（10 詞）" and len(s.options) == 10 for s in app.selectbox)
     workspace = next(r for r in app.radio if r.label == "工作區")
-    for page in ["文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"]:
+    for page in ["作業分析", "文獻資料", "Zipf 與 Porter", "文獻搜尋", "Word2Vec", "方法與展示"]:
         workspace.set_value(page).run()
         assert not app.exception, (page, app.exception)
+        if page == "作業分析":
+            assert any("Top 50 CF" in text.value for text in app.markdown)
         if page == "文獻搜尋":
             app.text_input(key="search_query").set_value("semaglutde").run()
             assert any("候選字" in info.value for info in app.info)
@@ -34,6 +37,7 @@ def test_ten_document_slider_and_empty_custom_source():
     app = start_app()
     app.slider[0].set_value(10).run()
     assert not app.exception and app.metric[0].value == "10"
+    assert any("固定實驗" in message.value for message in app.info)
     app.radio(key="source").set_value("本次自訂資料").run()
     assert not app.exception and app.info
     app.session_state["custom_records"] = [{"pmid": str(i), "title": "Test", "abstract": "GLP-1 insulin study.", "journal": "", "date": "", "url": f"https://pubmed.ncbi.nlm.nih.gov/{i}/"} for i in range(1, 11)]
